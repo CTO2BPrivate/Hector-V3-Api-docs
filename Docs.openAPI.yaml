@@ -1,0 +1,533 @@
+swagger: "2.0"
+basePath: /api
+schemes:
+  - https
+paths:
+  /v1/offers:
+    get:
+      tags:
+        - Offers
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: price
+          description: required_without_all:contract_id,product_id, numeric
+          type: string
+        - in: query
+          name: category_id
+          description: required_without_all:contract_id,product_id, exists:categories,id
+          type: string
+        - in: query
+          name: contract_id
+          description: required_without_all:price,category_id,product_id, integer
+          type: integer
+        - in: query
+          name: provider_id
+          description: exists:providers,id
+          type: string
+        - in: query
+          name: product_id
+          description: required_without_all:price,category_id,contract_id, integer, exists:products,id
+          type: integer
+      responses:
+        '200':
+          description: Operation successfully done
+          schema:
+            example:
+              success: true
+              status: 200
+              errors: []
+              message: null
+              data:
+                insurance:
+                  - id: 16
+                    type: repair
+                    duration: 12
+                    price: 69
+                  - id: 17
+                    type: repair
+                    duration: 24
+                    price: 139
+                  - id: 18
+                    type: repair
+                    duration: 36
+                    price: 169
+                extended_warranty:
+                  - id: 19
+                    type: repair
+                    duration: 12
+                    price: 55
+                  - id: 20
+                    type: replace
+                    duration: 12
+                    price: 75
+                  - id: 21
+                    type: replace
+                    duration: 24
+                    price: 100
+                  - id: 22
+                    type: repair
+                    duration: 24
+                    price: 80
+                  - id: 23
+                    type: repair
+                    duration: 36
+                    price: 105
+                  - id: 24
+                    type: replace
+                    duration: 36
+                    price: 130
+      security:
+        - sanctum: []
+      description: Returns offer data
+      summary: Offers by price/category or device or existing contact
+  /v1/offers/public:
+    get:
+      tags:
+        - Offers
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Operation successfully done
+          schema:
+            example:
+              success: true
+              status: 200
+              errors: []
+              message: null
+              data:
+                insurance:
+                  - id: 25
+                    type: repair
+                    duration: 12
+                    price: 69
+                  - id: 26
+                    type: repair
+                    duration: 24
+                    price: 139
+                  - id: 27
+                    type: repair
+                    duration: 36
+                    price: 169
+                extended_warranty:
+                  - id: 28
+                    type: repair
+                    duration: 12
+                    price: 55
+                  - id: 29
+                    type: replace
+                    duration: 12
+                    price: 75
+                  - id: 30
+                    type: replace
+                    duration: 24
+                    price: 100
+                  - id: 31
+                    type: repair
+                    duration: 24
+                    price: 80
+                  - id: 32
+                    type: repair
+                    duration: 36
+                    price: 105
+                  - id: 33
+                    type: replace
+                    duration: 36
+                    price: 130
+      security: []
+      description: Returns offers data
+      summary: Public offers by price/category
+  /v1/products:
+    get:
+      tags:
+        - Products
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Operation successfully done
+          schema:
+            example:
+              success: true
+              status: 200
+              errors: []
+              message: null
+              data:
+                - id: 8
+                  name: voluptatem
+                  category:
+                    id: 4
+                    name: Nešiojami kompiuteriai
+                  base_warranty: null
+                  price: 951.72
+                  currency: eur
+                  identifier: null
+                  details:
+                    model: ad
+                    identifier: serial
+                    manufacturer: enim
+                  purchased_at: '2022-01-18'
+                  created_at: '2022-01-19'
+                - id: 9
+                  name: inventore
+                  category:
+                    id: 2
+                    name: Mobilieji telefonai
+                  base_warranty: null
+                  price: 3155.46
+                  currency: eur
+                  identifier: null
+                  details:
+                    model: est
+                    identifier: imei
+                    manufacturer: quis
+                  purchased_at: '2022-01-18'
+                  created_at: '2022-01-19'
+                - id: 10
+                  name: debitis
+                  category:
+                    id: 2
+                    name: Mobilieji telefonai
+                  base_warranty: null
+                  price: 4853.51
+                  currency: eur
+                  identifier: null
+                  details:
+                    model: est
+                    identifier: imei
+                    manufacturer: commodi
+                  purchased_at: '2022-01-18'
+                  created_at: '2022-01-19'
+                - id: 11
+                  name: id
+                  category:
+                    id: 6
+                    name: Fotoaparatai
+                  base_warranty: null
+                  price: 1114.15
+                  currency: eur
+                  identifier: null
+                  details:
+                    model: maiores
+                    identifier: serial
+                    manufacturer: iste
+                  purchased_at: '2022-01-18'
+                  created_at: '2022-01-19'
+                - id: 12
+                  name: quia
+                  category:
+                    id: 3
+                    name: Planšetiniai kompiuteriai / Planšetiniai įrenginiai
+                  base_warranty: null
+                  price: 3227.6
+                  currency: eur
+                  identifier: null
+                  details:
+                    model: non
+                    identifier: serial
+                    manufacturer: vel
+                  purchased_at: '2022-01-18'
+                  created_at: '2022-01-19'
+      security:
+        - sanctum: []
+      description: Returns products data
+      summary: List all products
+  /v1/products/save/{productId}:
+    post:
+      tags:
+        - Products
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: productId
+          description: ''
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        '200':
+          description: Operation successfully done
+          schema:
+            example:
+              success: true
+              status: 200
+              errors: []
+              message: null
+              data:
+                id: 14
+                name: molestias
+                category:
+                  id: 2
+                  name: Mobilieji telefonai
+                base_warranty: null
+                price: 459.64
+                currency: eur
+                identifier: AA-BBBBBB-CCCCCC-D
+                details:
+                  model: iPhone 11
+                  identifier: imei
+                  manufacturer: Apple
+                purchased_at: '2022-01-18'
+                created_at: '2022-01-19'
+      security:
+        - sanctum: []
+      description: Returns products data
+      summary: Create/Update the product
+  /v1/contracts:
+    get:
+      tags:
+        - Contracts
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Operation successfully done
+          schema:
+            example:
+              success: true
+              status: 200
+              errors: []
+              message: null
+              data:
+                - id: 1
+                  offer_price: 35
+                  product_price: 155
+                  contract_price: 35
+                  duration: 12
+                  created_at: '2022-01-19 14:45:32'
+                  starts_at: ' '
+                  ends_at: ' '
+                - id: 2
+                  offer_price: 35
+                  product_price: 155
+                  contract_price: 35
+                  duration: 12
+                  created_at: '2022-01-19 14:45:32'
+                  starts_at: ' '
+                  ends_at: ' '
+                - id: 3
+                  offer_price: 35
+                  product_price: 155
+                  contract_price: 35
+                  duration: 12
+                  created_at: '2022-01-19 14:45:32'
+                  starts_at: ' '
+                  ends_at: ' '
+                - id: 4
+                  offer_price: 35
+                  product_price: 155
+                  contract_price: 35
+                  duration: 12
+                  created_at: '2022-01-19 14:45:32'
+                  starts_at: ' '
+                  ends_at: ' '
+                - id: 5
+                  offer_price: 35
+                  product_price: 155
+                  contract_price: 35
+                  duration: 12
+                  created_at: '2022-01-19 14:45:32'
+                  starts_at: ' '
+                  ends_at: ' '
+      security:
+        - sanctum: []
+      description: Returns contracts
+      summary: List all contracts
+  /api/v1/contracts/store:
+    post:
+      tags:
+        - Contracts
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/Contract'
+      responses:
+        '200':
+          description: Operation successfully done
+          schema:
+            example:
+              success: true
+              status: 200
+              errors: []
+              message: null
+              data:
+                id: 6
+                offer_price: 35
+                product_price: 155
+                contract_price: '320.00'
+                duration: 36
+                created_at: '2022-01-19 14:45:32'
+                starts_at: '2021-11-15 10:31:29'
+                ends_at: 2027-10-28 24:00
+      security:
+        - sanctum: []
+      description: Returns stored contract
+      summary: Store contract
+definitions:
+  Contract:
+    type: object
+    properties:
+      offer_id:
+        type: string
+        description: required, exists:offers,id
+      product_id:
+        type: string
+        description: exists:product,id
+      category_id:
+        type: string
+        description: required_without:product_id, exists:categories,id
+      user_id:
+        type: string
+        description: nullable, exists:partner_users,id,partner_id,3
+      first_name:
+        type: string
+        description: required_without:user_id, string, min:3
+      last_name:
+        type: string
+        description: required_without:user_id, string, min:3
+      phone:
+        type: string
+        description: required_without:user_id, string, min:3
+      email:
+        type: string
+        description: required_without:user_id, email
+      address:
+        type: string
+        description: required_without:user_id, string, min:5
+      city:
+        type: string
+        description: required_without:user_id, string, min:5
+      date_of_birth:
+        type: string
+        description: required_without:user_id, date
+      name:
+        type: string
+        description: nullable, string
+      manufacturer:
+        type: string
+        description: required_without:product_id, string
+      model:
+        type: string
+        description: required_without:product_id
+      imei:
+        type: string
+        description: unique:products,identifier,, required_without:product_id
+      serial:
+        type: string
+        description: unique:products,identifier,
+      price:
+        type: number
+        description: required_without:product_id, numeric
+      currency:
+        type: string
+        description: string, chars:3
+      country:
+        type: string
+        description: required_without:product_id, alpha, size:2
+      base_warranty:
+        type: number
+        description: required_without:product_id, numeric
+      purchased_at:
+        type: string
+        description: required_without:product_id, date
+    required:
+      - offer_id
+    example:
+      offer_id: 6
+      first_name: Kiril
+      last_name: Clk
+      phone: '+37064304951'
+      email: hello@nonamez.name
+      address: jrg 123
+      city: Klaipa
+      date_of_birth: '1991-08-25'
+      category_id: 2
+      manufacturer: Apple
+      model: iPhone 11
+      price: 155
+      country: LT
+      imei: AA-BBBBBB-CCCCCC-D
+      base_warranty: 12
+      purchased_at: '2021-12-30'
+  Product:
+    type: object
+    properties:
+      name:
+        type: string
+        description: nullable, string
+      manufacturer:
+        type: string
+        description: ', string'
+      model:
+        type: string
+        description: ''
+      imei:
+        type: string
+        description: unique:products,identifier,14, required
+      serial:
+        type: string
+        description: unique:products,identifier,14
+      price:
+        type: string
+        description: ', numeric'
+      currency:
+        type: string
+        description: string, chars:3
+      country:
+        type: string
+        description: ', alpha, size:2'
+      base_warranty:
+        type: number
+        description: ', numeric'
+      purchased_at:
+        type: string
+        description: ', date'
+      category_id:
+        type: string
+        description: ', exists:categories,id'
+      user_id:
+        type: string
+        description: nullable, exists:partner_users,id,partner_id,9
+    required:
+      - imei
+    example:
+      manufacturer: Apple
+      model: iPhone 11
+      imei: AA-BBBBBB-CCCCCC-D
+info:
+  title: Hector API
+  description: This is automatically collected documentation
+  termsOfService: ''
+  contact:
+    email: "info@hector.team"
+  version: "0.1"
+securityDefinitions:
+  sanctum:
+    type: apiKey
+    description: Bearer token authorization
+    name: Authorization
+    in: header
